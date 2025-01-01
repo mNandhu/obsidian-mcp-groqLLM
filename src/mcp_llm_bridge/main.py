@@ -39,25 +39,21 @@ async def main():
     # Configure bridge
     config = BridgeConfig(
         mcp_server_params=StdioServerParameters(
-            command="uvx",
-            args=["mcp-server-sqlite", "--db-path", db_path],
+            command="node",
+            args=["C:/Users/mnand/AppData/Roaming/npm/node_modules/@modelcontextprotocol/server-filesystem/dist/index.js", "G:/Programs/ObsidianVault/HoloMind"],
             env=None
         ),
-        # llm_config=LLMConfig(
-        #     api_key=os.getenv("OPENAI_API_KEY"),
-        #     model=os.getenv("OPENAI_MODEL", "gpt-4o"),
-        #     base_url=None
-        # ),
         llm_config=LLMConfig(
-            api_key="ollama",  # Can be any string for local testing
-            model="mistral-nemo:12b-instruct-2407-q8_0",
-            base_url="http://192.168.87.34:11434/v1"  # Point to your local model's endpoint
+            api_key="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",  # Can be any string for local testing
+            model="llama-3.3-70b-specdec",
+            base_url="https://api.groq.com/openai/v1"  # Point to your local model's endpoint
         ),
         system_prompt="You are a helpful assistant that can use tools to help answer questions."
     )
     
     logger.info(f"Starting bridge with model: {config.llm_config.model}")
     logger.info(f"Using database at: {db_path}")
+    print("Using database at: {db_path}")
     
     # Use bridge with context manager
     async with BridgeManager(config) as bridge:

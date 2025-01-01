@@ -33,6 +33,7 @@ class LLMResponse:
         self.message = self.choice.message
         self.stop_reason = self.choice.finish_reason
         self.is_tool_call = self.stop_reason == "tool_calls"
+        self.tool_calls = self.message.tool_calls if hasattr(self.message, "tool_calls") else None
         
         # Format content for bridge compatibility
         self.content = self.message.content if self.message.content is not None else ""
@@ -48,7 +49,7 @@ class LLMResponse:
         return {
             "role": "assistant",
             "content": self.content,
-            "tool_calls": self.tool_calls
+            "tool_calls": self.tool_calls if self.tool_calls is not None else []
         }
 
 class LLMClient:
